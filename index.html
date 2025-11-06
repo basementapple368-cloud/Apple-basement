@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apple Basement — Second‑hand MacBooks & Accessories</title>
+  <meta name="description" content="Apple Basement — second-hand MacBook Pro, Air, Mini, iMac, and Apple accessories. View models, conditions, and prices." />
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa7b2; --accent:#06b6d4; --glass:rgba(255,255,255,0.04); --max-width:1100px;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:linear-gradient(180deg,#071223 0%,#051022 100%);color:#e6eef3;-webkit-font-smoothing:antialiased;padding:28px;display:flex;justify-content:center;}
+    .container{width:100%;max-width:var(--max-width);}
+    header{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .mark{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .search{flex:1;min-width:200px}
+    input,select{background:var(--glass);border:1px solid rgba(255,255,255,0.05);padding:10px 12px;border-radius:8px;color:inherit;font-size:14px;width:100%}
+    button{background:linear-gradient(90deg,var(--accent),#7c3aed);border:0;padding:10px 14px;border-radius:8px;color:#052023;font-weight:600;cursor:pointer}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:10px}
+    .thumb{height:150px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#091018}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .title{font-weight:700}
+    .muted{color:var(--muted);font-size:13px}
+    .price{font-weight:800;color:var(--accent)}
+    .badge{background:rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;font-weight:600;font-size:12px}
+    footer{margin-top:22px;color:var(--muted);font-size:13px;padding:12px 0}
+    @media (max-width:640px){ .row{flex-direction:column} .specs{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <main class="container" id="app">
+    <header>
+      <div class="logo">
+        <div class="mark">AB</div>
+        <div>
+          <h1>Apple Basement</h1>
+          <p class="lead">MacBook Pro · MacBook Air · Mac Mini · iMac · Original Apple accessories — inspected & ready</p>
+        </div>
+      </div>
+    </header>
+    <section class="controls">
+      <div class="search">
+        <label for="q" class="muted" style="display:block;margin-bottom:6px">Search products</label>
+        <input id="q" placeholder="Search by model, spec, or keyword" />
+      </div>
+      <div style="width:180px">
+        <label class="muted" for="filter">Filter by category</label>
+        <select id="filter">
+          <option value="all">All categories</option>
+          <option>MacBook Pro</option>
+          <option>MacBook Air</option>
+          <option>Mac mini</option>
+          <option>iMac</option>
+          <option>Accessories</option>
+        </select>
+      </div>
+      <div style="width:150px">
+        <label class="muted" for="sort">Sort</label>
+        <select id="sort">
+          <option value="newest">Newest first</option>
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:end">
+        <button id="clear" class="ghost">Reset</button>
+      </div>
+    </section>
+    <section aria-live="polite">
+      <div id="grid" class="grid" role="list"></div>
+    </section>
+    <footer>
+      <div>Apple Basement — sample store • This is a static demo. To enable purchases, integrate a payment gateway and backend.</div>
+    </footer>
+  </main>
+  <script>
+    const PRODUCTS = [
+      {id:1,title:'MacBook Pro 16" (2019) - Intel i9, 32GB, 1TB',category:'MacBook Pro',condition:'Good',price:1299,year:2019,image:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=60',desc:'Well-maintained MacBook Pro with powerful specs.'},
+      {id:2,title:'MacBook Air 13" M1 (2020) - 8GB, 256GB',category:'MacBook Air',condition:'Very Good',price:699,year:2020,image:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=801&q=60',desc:'Excellent condition. Perfect for daily work.'},
+      {id:3,title:'Mac mini M2 (2023) - 8GB, 512GB',category:'Mac mini',condition:'Like New',price:549,year:2023,image:'https://images.unsplash.com/photo-1587825140708-3b2f86b0a7c6?auto=format&fit=crop&w=800&q=60',desc:'Compact desktop for home office setups.'},
+      {id:4,title:'iMac 27" Retina (2017) - Intel i5, 16GB, 1TB',category:'iMac',condition:'Good',price:799,year:2017,image:'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=800&q=60',desc:'27-inch iMac with beautiful display.'},
+      {id:5,title:'Original Apple MagSafe Charger',category:'Accessories',condition:'New',price:49,year:2021,image:'https://images.unsplash.com/photo-1585386959984-a4155221f4c6?auto=format&fit=crop&w=800&q=60',desc:'Genuine Apple MagSafe charger, tested.'}
+    ];
+    const fmt = (n) => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
+    const state = {q:'',filter:'all',sort:'newest'};
+    const grid = document.getElementById('grid');
+    const qInput = document.getElementById('q');
+    const filterEl = document.getElementById('filter');
+    const sortEl = document.getElementById('sort');
+    const clearBtn = document.getElementById('clear');
+
+    function render(){
+      grid.innerHTML='';
+      let items = PRODUCTS.slice();
+      const q = state.q.trim().toLowerCase();
+      if(q) items = items.filter(p => (p.title + ' ' + p.desc + ' ' + p.category).toLowerCase().includes(q));
+      if(state.filter!=='all') items = items.filter(p=>p.category===state.filter);
+      if(state.sort==='price_asc') items.sort((a,b)=>a.price-b.price);
+      else if(state.sort==='price_desc') items.sort((a,b)=>b.price-a.price);
+      else items.sort((a,b)=>b.year-a.year);
+      if(items.length===0){grid.innerHTML='<div class="card"><div class="muted">No products found.</div></div>';return;}
+      for(const p of items){
+        const card = document.createElement('article'); card.className='card';
+        card.innerHTML=`<div class="thumb"><img src="${p.image}" alt="${p.title}"></div>
+        <div class="meta"><div><div class="title">${p.title}</div><div class="muted">${p.category} • ${p.condition} • ${p.year}</div></div><div class="price">${fmt(p.price)}</div></div>`;
+        grid.appendChild(card);
+      }
+    }
+    qInput.addEventListener('input', e=>{state.q=e.target.value;render();});
+    filterEl.addEventListener('change', e=>{state.filter=e.target.value;render();});
+    sortEl.addEventListener('change', e=>{state.sort=e.target.value;render();});
+    clearBtn.addEventListener('click', ()=>{state.q='';state.filter='all';state.sort='newest';qInput.value='';filterEl.value='all';sortEl.value='newest';render();});
+    render();
+  </script>
+</body>
+</html>
