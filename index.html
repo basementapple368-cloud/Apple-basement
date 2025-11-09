@@ -7,80 +7,163 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
     
     <style>
         /* Base Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* ✅ গতির জন্য একটি গুরুত্বপূর্ণ অপটিমাইজেশন: স্মুথ স্ক্রলিং */
+        html {
+            scroll-behavior: smooth; 
+        }
+        
         body {
             font-family: 'Inter', sans-serif; line-height: 1.6;
-            color: #1a1a1a; background-color: #ffffff; scroll-behavior: smooth;
+            color: #1a1a1a; background-color: #ffffff; 
         }
         .container { width: 92%; max-width: 1300px; margin: 0 auto; }
 
-        /* --- Navigation Bar --- */
+        /* --- Navigation Bar (Darkened) --- */
         .header-section {
             position: sticky; top: 0; z-index: 1000;
-            background-color: #ffffff;
-            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08);
+            background-color: #1a1a1a; 
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3); 
         }
-        .navbar { padding: 15px 0; }
+        .navbar { padding: 15px 0; } /* প্যাডিং বাড়ানো হলো */
         .navbar .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo-link { display: flex; align-items: center; text-decoration: none; position: relative; }
         
-        .navbar-logo { height: 45px; }
-        .logo-text-fallback {
-            display: none; font-size: 1.5em; font-weight: 800; color: #1a1a1a;
+        /* 🔥 আপডেট: লোগো লিংককে ফ্লেক্স কন্টেইনার করা হয়েছে */
+        .logo-link { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none; 
+            position: relative; 
+            padding: 0; 
+        }
+        
+        /* 🔥🔥 FINAL আপডেট: navbar-logo স্টাইল (সাইজ বৃদ্ধি) 🔥🔥 */
+        .navbar-logo { 
+            height: 65px; /* লোগোর উচ্চতা বাড়ানো হলো */
+            width: auto; /* অনুপাত ঠিক রাখার জন্য */
+            object-fit: contain; /* ইমেজ কাটবে না */
+            margin-right: 10px; /* লোগো এবং টেক্সটের মাঝে দূরত্ব */
+            transition: transform 0.3s ease;
+        }
+        .navbar-logo:hover {
+            transform: scale(1.05); 
+        }
+        
+        /* ✅ লোগো টেক্সট স্টাইল (ভিজিবল করা হলো) */
+        .logo-text {
+            font-size: 1.6em; /* ফন্ট সাইজ */
+            font-weight: 800; 
+            color: #ffffff;
+            display: block !important; /* টেক্সট দৃশ্যমান রাখা হলো */
+            /* 🔥 আপডেট: লোগো টেক্সটকে লোগোর সাথে উল্লম্বভাবে সারিবদ্ধ করা */
+            position: relative;
+            top: 1px; /* সামান্য নিচে নামানো যাতে লোগোর সাথে সুন্দরভাবে বসে */
         }
 
         /* মেনু স্টাইল */
         .main-nav ul { list-style: none; display: flex; align-items: center; }
-        .main-nav ul li { position: relative; margin-left: 25px; } 
+        /* ✅ শুধুমাত্র মূল নেভিগেশন আইটেমগুলির জন্য মার্জিন রাখা হলো */
+        .main-nav > ul > li { 
+            position: relative; 
+            margin-left: 10px; 
+        } 
+        
         .main-nav ul li a { 
-            color: #333; text-decoration: none; padding: 10px 0; 
-            font-weight: 600; font-size: 1em; transition: color 0.3s; 
+            color: #cccccc; 
+            text-decoration: none; 
+            /* ✅ নতুন স্টাইল: padding, display, transition, border-radius যোগ করা হলো */
+            padding: 8px 15px; 
+            display: inline-block; 
+            border-radius: 20px; 
+            font-weight: 600; font-size: 1em; 
+            transition: all 0.3s ease-in-out; 
+            cursor: pointer; 
+            white-space: nowrap;
         }
         .main-nav ul li a i { margin-right: 6px; } 
         
-        /* 'active-cat' ক্লাসটি শুধুমাত্র বর্তমান পেজ হাইলাইট করার জন্য (ড্রপডাউন ফিক্স করা হয়েছে) */
-        .main-nav ul li a:hover, .main-nav ul li.active-cat a { color: #0070c9; border-bottom: 2px solid #0070c9; padding-bottom: 8px; }
+        /* 🔥🔥 UPDATED: প্রিমিয়াম হভার/অ্যাক্টিভ ইফেক্ট (পিল লুক) 🔥🔥 */
+        .main-nav ul li a:hover { 
+            color: #ffffff !important; 
+            background-color: #0070c9; 
+            padding-bottom: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 112, 201, 0.5); 
+            transform: translateY(-2px); 
+        }
+        
+        /* অ্যাক্টিভ ক্যাটাগরির জন্য স্টাইল */
+        .main-nav ul li.active-cat a { 
+            color: #ffffff !important; 
+            background-color: #0070c9; 
+            padding-bottom: 8px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+            transform: none; 
+        }
 
         /* ড্রপডাউন স্টাইল */
         .dropdown-menu {
-            /* ❗ ফিক্স: ডিফল্টভাবে লুকিয়ে রাখা হয়েছে */
             display: none; 
-            position: absolute; top: 100%; left: 0; background-color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border-top: 3px solid #0070c9;
+            position: absolute; top: 100%; left: 0; 
+            background-color: #2a2a2a; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); 
+            border-top: 3px solid #0070c9;
             min-width: 220px; 
             padding: 5px 0; z-index: 2000; border-radius: 4px;
         }
         
-        /* ডেস্কটপ/বড় স্ক্রিনের জন্য :hover */
-        @media (min-width: 769px) {
-            .dropdown:hover .dropdown-menu { 
-                display: block; 
-            }
+        .dropdown.open .dropdown-menu {
+            display: block;
         }
         
-        /* ছোট স্ক্রিন বা জাভাস্ক্রিপ্ট টগল করার জন্য ক্লাস (যা আপনার সমস্যা ফিক্স করবে) */
-        .dropdown.active .dropdown-menu {
-             display: block;
+        .dropdown-menu li {
+            position: relative; 
+            margin-left: 0;
+            padding: 0; 
+            width: 100%; 
         }
         
-        .dropdown-menu li { margin: 0; }
         .dropdown-menu li a { 
-            padding: 8px 15px; font-weight: 400; white-space: nowrap; 
-            border: none; display: block; 
+            color: #cccccc; 
+            padding: 8px 15px; display: block;
+            border-bottom: none !important; 
+            padding-bottom: 8px !important;
+            cursor: pointer; 
+            border-radius: 0; 
+            background-color: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+        .dropdown-menu li a:hover {
+            background-color: #3a3a3a !important;
+            color: #0070c9 !important;
         }
         
-        /* --- লম্বা সার্চ বার --- */
-        .search-bar-container { padding: 10px 0; background-color: #f7f7f7; border-top: 1px solid #eee; }
+        /* --- লম্বা সার্চ বার (Light/White) --- */
+        .search-bar-container { 
+            padding: 10px 0; 
+            background-color: #ffffff; 
+            border-top: 1px solid #eee; 
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
         .search-bar { display: flex; width: 100%; max-width: 1000px; margin: 0 auto; }
-        .search-bar input { flex-grow: 1; padding: 12px 20px; border: 1px solid #ddd; border-radius: 25px 0 0 25px; font-size: 1em; outline: none; }
+        .search-bar input { 
+            flex-grow: 1; padding: 12px 20px; 
+            border: 1px solid #ddd; 
+            border-radius: 25px 0 0 25px; 
+            font-size: 1em; outline: none; 
+            background-color: #ffffff; 
+        }
         .search-bar button { padding: 12px 25px; background-color: #0070c9; color: #fff; border: none; border-radius: 0 25px 25px 0; cursor: pointer; transition: background-color 0.3s; }
         .search-bar button:hover { background-color: #005bb5; }
         
-        /* 🔥 প্রিমিয়াম স্লাইডশো (ক্যারোসেল) স্টাইল */
+        /* 🔥🔥🔥 প্রিমিয়াম স্লাইডশো (ক্যারোসেল) স্টাইল 🔥🔥🔥 */
         .product-carousel-section {
             padding: 25px 0; 
             background-color: #f0f0f5; 
@@ -112,7 +195,7 @@
             color: #1a1a1a;
         }
 
-        /* স্লাইড কালার থিম */
+        /* স্লাইড কালার */
         .carousel-item:nth-child(1) { background-color: #f9f9f9; }
         .carousel-item:nth-child(2) { background-color: #333333; color: #ffffff; }
         .carousel-item:nth-child(2) .carousel-content h3 { color: #88c0e6; }
@@ -140,6 +223,9 @@
             margin-bottom: 30px;
             font-weight: 500;
         }
+        .carousel-item:nth-child(2) .carousel-content p {
+            color: #cccccc;
+        }
 
         .carousel-image {
             max-width: 40%;
@@ -152,8 +238,9 @@
         .carousel-image img {
             width: 100%;
             height: 100%;
-            max-height: 300px;
             object-fit: contain;
+            background-color: white; 
+            padding: 10px; 
         }
 
         /* নেভিগেশন বাটন স্টাইল */
@@ -183,13 +270,8 @@
             transform: translateY(-50%) scale(1.05);
         }
 
-        #prev-btn {
-            left: 20px;
-        }
-
-        #next-btn {
-            right: 20px;
-        }
+        #prev-btn { left: 20px; }
+        #next-btn { right: 20px; }
 
         /* ডট ইন্ডিকেটর স্টাইল */
         .carousel-dots {
@@ -279,11 +361,6 @@
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1); 
         }
         
-        /* কার্ড হাইড করার জন্য নতুন CSS ক্লাস */
-        .product-card.hidden {
-            display: none !important;
-        }
-        
         /* ইমেজ প্লেসহোল্ডার স্টাইল */
         .product-image-placeholder { 
             display: block; 
@@ -322,23 +399,179 @@
             padding-top: 40px; padding-bottom: 40px; border-top: 1px solid #eee; 
             margin-top: 50px; 
             display: none; 
-            background-color: #f9f9f9;
+            background-color: #ffffff; 
             border-radius: 8px;
             padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
         }
         .details-section h3 { font-size: 1.8em; color: #0070c9; margin-bottom: 20px; }
-        .details-section p { font-size: 1em; color: #333; margin-bottom: 10px; } 
-        .details-section strong { font-weight: 700; color: #1a1a1a; } 
         .details-section.active { display: block; } 
         
+        /* --- Disclaimer/About Us সেকশন স্টাইল (পরিবর্তিত) --- */
+        #disclaimer-section {
+            padding: 60px 0;
+            background-color: #f7f7f7; /* হালকা ব্যাকগ্রাউন্ড */
+            border-top: 5px solid #0070c9; /* প্রিমিয়াম নীল বর্ডার */
+            text-align: center;
+            /* DEFAULT HIDDEN, will be toggled by JS */
+            display: none; 
+        }
+        #disclaimer-section.active {
+            display: block;
+        }
+        #disclaimer-section h2 {
+            font-size: 2.5em; /* ফন্ট সাইজ ছোট করা হয়েছে */
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            font-weight: 800;
+        }
+        #disclaimer-section .disclaimer-content {
+            max-width: 700px; /* কন্টেইনার ছোট করা হয়েছে */
+            margin: 0 auto;
+            text-align: center; /* বামে ছিল, এখন মাঝে আনা হলো */
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        /* ✅ ডিসক্লেইমার কনটেন্ট এর ফন্ট সাইজ কমানো হয়েছে */
+        #disclaimer-section .disclaimer-content p {
+            font-size: 1em; 
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: left; /* বামে এলাইন করা হলো */
+        }
+        #disclaimer-section .disclaimer-content p strong {
+            color: #0070c9; 
+            font-size: 1em;
+            font-weight: 700;
+        }
+        .contact-info-block {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid #eee;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* --- UPDATED: New Premium Contact Section Style --- */
+        #contact-section {
+            padding: 60px 0; 
+            background-color: #f0f0f5; 
+            text-align: center;
+        }
+        #contact-section .section-title {
+            font-size: 2em; /* Smaller title */
+            color: #0070c9;
+            margin-bottom: 40px;
+        }
+        .contact-cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap; 
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .contact-card {
+            flex: 1 1 250px; 
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 25px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            text-align: center;
+            text-decoration: none; 
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: #0070c9;
+        }
+        .contact-card i {
+            font-size: 2.5em;
+            color: #0070c9;
+            margin-bottom: 10px;
+        }
+        .contact-card h4 {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .contact-card p {
+            font-size: 1em;
+            color: #666;
+            font-weight: 500;
+        }
         /* --- ফুটার স্টাইল --- */
         .footer { background-color: #000000; padding: 50px 0; border-top: 5px solid #0070c9; }
-        /* টেক্সট এবং ডিফল্ট লিঙ্ক কালার রিসেট */
-        .footer-logo-section h3 { color: #ffffff; font-size: 1.5em; margin-bottom: 15px; }
+        
+        /* 🔥 আপডেট: ফুটার লোগো সেকশন - ফ্লেক্সবক্স ফর সেন্টারিং */
+        .footer-logo-section {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+        }
+        
+        /* 🔥 আপডেট: ফুটার টেক্সট (লোগোর উপরে) */
+        .footer-logo-section h3 { 
+            order: 1; /* Make it the first item in the column */
+            color: #ffffff; 
+            font-size: 1.8em; 
+            font-weight: 800; 
+            margin-bottom: 5px; /* Reduced space below text */
+            margin-top: 0; /* Ensure no top margin */
+        }
+        
+        /* 🔥 আপডেট: ফুটার লোগো স্টাইল (টেক্সটের নিচে, সাইজ আরও বৃদ্ধি করা হলো) */
+        .footer-logo {
+            order: 2; /* Make it the second item */
+            height: 100px; /* লোগোর উচ্চতা আরও বাড়ানো হলো */
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 15px; /* Space below the logo before other content starts */
+            display: block; 
+        }
+
+        /* --- ✅ নিউ: ফুটার ফোন বক্স স্টাইল (নীল বর্ডার) --- */
+        .footer-phone-box {
+            border: 2px solid #0070c9; /* প্রধান নীল রং */
+            padding: 8px 15px;
+            border-radius: 8px; /* সামান্য কার্ভ */
+            margin-top: 15px; 
+            margin-bottom: 15px !important; /* ইমেলের নিচে স্পেস নিশ্চিত করা */
+            display: inline-block; /* বক্সকে কন্টেন্টের সমান ছোট করার জন্য */
+            color: #cccccc; /* টেক্সট ধূসর/সাদা থাকবে */
+            font-size: 0.9em; 
+            font-weight: 600;
+        }
+        .footer-phone-box strong {
+            color: #ffffff; /* ভিতরের স্ট্রং টেক্সট সাদা থাকবে */
+            font-weight: 800;
+        }
+        /* ---------------------------------------------------- */
+
+
         .footer-logo-section p { font-size: 0.9em; margin-bottom: 10px; color: #cccccc; }
         .footer-logo-section p strong { color: #ffffff; font-weight: 600; }
         
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; text-align: left; }
+        /* ✅ নতুন: ফুটার আইকন স্টাইল */
+        .footer-logo-section p i {
+            color: #ffffff; /* আইকনটি সাদা হবে */
+            margin-right: 5px; /* টেক্সটের সাথে সামান্য দূরত্ব */
+        }
+
+
+        /* 🔥 আপডেট: ৫-কলাম ফুটার গ্রিড লেআউট */
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 40px; text-align: left; }
         .footer-grid h4 { color: #ffffff; font-size: 1.1em; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 5px; }
         .footer-grid ul { list-style: none; }
         .footer-grid ul li { margin-bottom: 8px; }
@@ -348,74 +581,54 @@
         }
         .footer-grid ul li a:hover { color: #0070c9; } 
         
-        /* 🔥 অ্যাপ ডাউনলোড স্টাইল (প্রিমিয়াম লুক) 🔥 */
-        .download-apps-section {
-            margin-top: 20px;
-            margin-bottom: 15px;
-            padding-top: 10px;
-            border-top: 1px solid #333;
-        }
-        .download-apps-section h5 {
-            color: #ffffff;
-            font-size: 1em;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .app-link-wrapper {
-            display: flex; 
-            flex-direction: column;
-            gap: 8px;
-        }
-        .app-link {
-            display: flex;
-            align-items: center;
-            background-color: #333; 
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 6px;
-            text-decoration: none;
-            width: 160px; 
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .app-link:hover {
-            background-color: #555;
-            transform: scale(1.03);
-        }
-        .app-link i {
-            font-size: 1.5em; 
-            margin-right: 8px;
-            color: #999; 
-        }
-        .app-link .text-small {
-            font-size: 0.65em;
-            line-height: 1;
-            display: block;
-        }
-        .app-link .text-large {
-            font-size: 0.9em;
-            font-weight: 600;
-            display: block;
-        }
-
-        /* সোশ্যাল আইকন স্টাইল */
-        .social-links {
-            margin-top: 15px;
-        }
-        .social-links h5 {
-            color: #ffffff;
-            font-size: 1em;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .social-links a {
-            display: inline-block;
-            margin-right: 15px; 
+        .app-links a { 
+            display: inline-block; margin-right: 15px; 
             color: #cccccc; 
-            font-size: 1.8em; 
-            transition: color 0.3s; 
+            font-size: 2em; transition: color 0.3s; 
         }
-        .social-links a:hover { color: #0070c9; } 
-
+        .app-links a:hover { color: #ffffff; } 
+        
+        /* 🔥 NEW: Newsletter Section Styles */
+        .newsletter-section { 
+            padding-top: 5px; 
+        }
+        .newsletter-section p { 
+            color: #cccccc; 
+            margin-bottom: 15px; 
+            font-size: 0.9em; 
+        }
+        .newsletter-form { 
+            display: flex; 
+            max-width: 300px; 
+            margin-top: 10px;
+        }
+        .newsletter-form input { 
+            flex-grow: 1; 
+            padding: 10px; 
+            border: none; 
+            border-radius: 6px 0 0 6px; 
+            font-size: 0.9em; 
+            outline: none; 
+            /* Placeholder Color (to better highlight 'Enter your email') */
+            color: #1a1a1a;
+        }
+        .newsletter-form input::placeholder {
+            color: #666; 
+            font-weight: 500;
+        }
+        .newsletter-form button { 
+            padding: 10px 15px; 
+            background-color: #0070c9; 
+            color: #fff; 
+            border: none; 
+            border-radius: 0 6px 6px 0; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: background-color 0.3s;
+        }
+        .newsletter-form button:hover {
+            background-color: #005bb5;
+        }
 
         .copyright-bar { background-color: #1a1a1a; color: #999; padding: 15px 0; text-align: center; font-size: 0.8em; margin-top: 30px; border-top: 1px solid #333; }
         
@@ -424,30 +637,173 @@
             .product-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
             }
+            /* 🔥 UPDATE: 5-column footer to 3 columns for better use of space */
+            .footer-grid { 
+                grid-template-columns: 2fr 1fr 1fr; /* Logo, Quick Links, Categories/Support/Newsletter */
+                gap: 30px;
+            }
+            .newsletter-section {
+                 grid-column: span 3; /* Take full width below the 3 columns */
+                 text-align: center;
+            }
+            .newsletter-form {
+                margin: 10px auto 0 auto; /* Center the form in the section */
+            }
         }
         @media (max-width: 768px) {
             .navbar .container { flex-direction: column; }
+            /* লোগো লিংক রেসপনসিভ */
+            .logo-link {
+                margin-bottom: 10px;
+            }
             .main-nav ul { margin-top: 10px; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
+            /* 🔥 FINAL UPDATE: 768px - 2 columns */
+            .footer-grid { 
+                grid-template-columns: 1fr 1fr; 
+                text-align: center; 
+            }
+            .footer-grid h4 {
+                text-align: center; 
+                border-bottom: none; 
+                padding-bottom: 0;
+            }
+            .footer-grid ul {
+                padding-left: 0; 
+            }
+            .footer-grid ul li {
+                text-align: center; 
+            }
+            /* Newsletter in the 768px view */
+            .newsletter-section {
+                 grid-column: span 2; /* Take full width below the 2 columns */
+                 text-align: center;
+            }
+            .newsletter-form {
+                margin: 10px auto 0 auto; /* Center the form */
+            }
+
+
             .product-grid {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
             }
-            .carousel-item { flex-direction: column; text-align: center; padding: 20px 20px 50px 20px; }
-            .carousel-content, .carousel-image { max-width: 100%; text-align: center; }
-            .carousel-content h3 { font-size: 1.8em; }
-            .carousel-content p { font-size: 1.1em; }
-            .carousel-image { order: -1; margin-bottom: 15px; max-height: 200px; }
-            .carousel-btn { padding: 10px 8px; font-size: 1.2em; width: 40px; height: 40px; }
+            /* স্লাইডশো রেসপনসিভ */
+            .carousel-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 20px 50px 20px;
+            }
+            .carousel-content, .carousel-image {
+                max-width: 100%;
+                text-align: center;
+            }
+            .carousel-content h3 {
+                font-size: 1.8em;
+            }
+            .carousel-content p {
+                font-size: 1.1em;
+            }
+            .carousel-image {
+                order: -1; 
+                margin-bottom: 15px;
+                max-height: 200px;
+            }
+            .carousel-btn {
+                padding: 10px 8px;
+                font-size: 1.2em;
+                width: 40px;
+                height: 40px;
+            }
             #prev-btn { left: 10px; }
             #next-btn { right: 10px; }
+            /* যোগাযোগ সেকশন রেসপনসিভ */
+            .contact-cards-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .contact-card {
+                flex: 1 1 100%;
+            }
         }
         @media (max-width: 480px) {
             .product-grid {
                 grid-template-columns: 1fr; 
             }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; }
-            .footer-logo-section { margin-bottom: 20px; }
-            .app-link-wrapper { align-items: center; }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .newsletter-section {
+                 grid-column: span 1; 
+            }
+        }
+
+        /* --- Live Search Style (Autocomplete) --- */
+        .ui-autocomplete {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 9998; 
+            float: left;
+            min-width: 300px;
+            max-width: 450px;
+            padding: 5px 0;
+            margin: 2px 0 0;
+            list-style: none;
+            font-size: 14px;
+            text-align: left;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+            background-clip: padding-box;
+            max-height: 300px; 
+            overflow-y: auto; 
+        }
+        .ui-autocomplete li {
+            padding: 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .ui-autocomplete li:last-child {
+            border-bottom: none;
+        }
+        /* কাস্টমাইজড ফলাফল প্রদর্শনের স্টাইল */
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            transition: background-color 0.2s;
+            text-decoration: none; 
+            color: inherit;
+        }
+        .search-result-item:hover, .ui-state-focus .search-result-item { 
+            background-color: #f0f0f5; 
+        }
+        .search-result-item img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            object-fit: contain;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .product-title-search {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 1em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price-search {
+            font-weight: 700;
+            color: #0070c9;
+            font-size: 0.9em;
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -457,26 +813,25 @@
         <header class="navbar">
             <div class="container">
                 <a href="#top" class="logo-link">
-                    <img src="logo.png" onerror="this.style.display='none'; document.querySelector('.logo-text-fallback').style.display='block';" alt="Apple Basement Logo" class="navbar-logo">
-                    <h1 class="logo-text-fallback">Apple Basement</h1>
+                    <img src="logo.png.png" alt="Apple Basement Logo" class="navbar-logo">
+                    <h1 class="logo-text">Apple Basement</h1> 
                 </a>
                 
                 <nav class="main-nav">
                     <ul>
-                        <li class="active-cat"><a href="#top"><i class="fa-solid fa-house"></i> Home</a></li>
-                        <li class="dropdown" id="products-dropdown">
-                            <a href="#product-categories" class="dropdown-toggle" role="button" aria-expanded="false"><i class="fa-solid fa-store"></i> Products</a> 
-                            <ul class="dropdown-menu"> 
-                                <li><a href="#macbook-category"><i class="fa-solid fa-laptop"></i> MacBook</a></li> 
-                                <li><a href="#ipad-category"><i class="fa-solid fa-tablet"></i> iPad & Watch</a></li>
-                                <li style="border-top: 1px solid #eee; margin-top: 5px; padding-top: 5px;">
-                                    <li><a href="#accessories-category"><i class="fa-solid fa-battery-full"></i> Accessories & Parts</a></li>
-                                </li>
-                                <li><a href="#product-categories"><i class="fa-solid fa-sparkles"></i> All Products</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#about-info" class="dynamic-link" data-target="about-info"><i class="fa-solid fa-circle-info"></i> About Us</a></li>
-                        <li><a href="#contact-section"><i class="fa-solid fa-headset"></i> Contact</a></li> 
+                        <li class="active-cat"><a href="#top" class="nav-scroll-link"><i class="fa-solid fa-house"></i> Home</a></li>
+                        
+                        <li><a href="#macbook-category" class="nav-scroll-link"><i class="fa-regular fa-laptop"></i> MacBooks</a></li>
+                        
+                        <li><a href="#ipad-category" class="nav-scroll-link"><i class="fa-solid fa-tablet"></i> iPad/Watch</a></li> 
+                        
+                        <li><a href="#accessories-category" class="nav-scroll-link"><i class="fa-solid fa-battery-full"></i> Accessories</a></li>
+                        
+                        <li><a href="#disclaimer-section" class="nav-scroll-link policy-toggle-btn" data-target="disclaimer"><i class="fa-solid fa-circle-info"></i> About</a></li>
+                        
+                        <li><a href="#contact-section" class="nav-scroll-link"><i class="fa-solid fa-headset"></i> Contact</a></li>
+                        
+                        <li><a href="#registration" class="nav-scroll-link"><i class="fa-solid fa-user-plus"></i> Register</a></li>
                     </ul>
                 </nav>
             </div>
@@ -484,7 +839,7 @@
 
         <div class="search-bar-container">
             <div class="container">
-                <form class="search-bar" id="search-form">
+                <form class="search-bar" onsubmit="return false;"> 
                     <input type="text" id="search-input" placeholder="Search for MacBooks, iPads, or Accessories..." required>
                     <button type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
                 </form>
@@ -501,10 +856,10 @@
                         <div class="carousel-content">
                             <h3>MacBook Air M3</h3>
                             <p>Slim, light, and faster than ever. Get the latest M3 power for your everyday needs.</p>
-                            <a href="#macbook-category" class="btn primary-btn">Explore MacBooks</a>
+                            <a href="#macbook-category" class="btn primary-btn nav-scroll-link">Explore MacBooks</a>
                         </div>
                         <div class="carousel-image">
-                            <img src="https://via.placeholder.com/400x300/F5F5F7/0070c9?text=MacBook+Air+M3" alt="MacBook Air M3">
+                            <img src="macbookairs.jpg.jpg"https://via.placeholder.com/400x300/F5F5F7/0070c9?text=MacBook+Air+M3" alt="MacBook Air M3">
                         </div>
                     </div>
 
@@ -512,690 +867,742 @@
                         <div class="carousel-content">
                             <h3>AirPods Pro (2nd Gen)</h3>
                             <p>Next-level sound and Active Noise Cancellation. Experience audio like never before.</p>
-                            <a href="#ipad-category" class="btn primary-btn" style="background-color: #88c0e6; box-shadow: 0 4px 6px rgba(136, 192, 230, 0.5);">Shop Audio</a>
+                            <a href="#ipad-category" class="btn primary-btn nav-scroll-link" style="background-color: #88c0e6; box-shadow: 0 4px 6px rgba(136, 192, 230, 0.5);">Shop Audio</a>
                         </div>
                         <div class="carousel-image">
-                            <img src="https://via.placeholder.com/400x300/333333/FFFFFF?text=AirPods+Pro+2" alt="AirPods Pro 2">
+                            <img src="imac.webp.webp"https://via.placeholder.com/400x300/333333/FFFFFF?text=AirPods+Pro+2" alt="AirPods Pro 2">
                         </div>
                     </div>
-                    
+
                     <div class="carousel-item">
                         <div class="carousel-content">
                             <h3>Apple Watch Ultra</h3>
                             <p>The most rugged and capable Apple Watch. Built for adventure and extreme use.</p>
-                            <a href="#ipad-category" class="btn primary-btn" style="background-color: #ff8c00; box-shadow: 0 4px 6px rgba(255, 140, 0, 0.4);">View Watch Ultra</a>
+                            <a href="#ipad-category" class="btn primary-btn nav-scroll-link" style="background-color: #ff8c00; box-shadow: 0 4px 6px rgba(255, 140, 0, 0.4);">View Watch Ultra</a>
                         </div>
                         <div class="carousel-image">
-                            <img src="https://via.placeholder.com/400x300/FFFFFF/FF8C00?text=Apple+Watch+Ultra" alt="Apple Watch Ultra">
+                            <img src="macmini.jpg"https://via.placeholder.com/400x300/FFFFFF/FF8C00?text=Apple+Watch+Ultra" alt="Apple Watch Ultra">
                         </div>
                     </div>
-                    
+
                     <div class="carousel-item">
                         <div class="carousel-content">
                             <h3>New iPad Pro M4</h3>
                             <p>The thinnest product ever. Stunning Ultra Retina XDR display with M4 Chip.</p>
-                            <a href="#ipad-category" class="btn primary-btn">Check iPad Deals</a>
+                            <a href="#ipad-category" class="btn primary-btn nav-scroll-link">Check iPad Deals</a>
                         </div>
                         <div class="carousel-image">
-                            <img src="https://via.placeholder.com/400x300/E8E8E8/0070c9?text=iPad+Pro+M4" alt="iPad Pro M4">
+                            <img src="airpodss.webp"https://via.placeholder.com/400x300/E8E8E8/0070c9?text=iPad+Pro+M4" alt="iPad Pro M4">
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
                 <button id="prev-btn" class="carousel-btn"><i class="fas fa-chevron-left"></i></button>
                 <button id="next-btn" class="carousel-btn"><i class="fas fa-chevron-right"></i></button>
             </div>
             
-            <div class="carousel-dots">
-                </div>
+            <div class="carousel-dots"> 
+            </div>
         </div>
     </section>
-
 
     <section id="top" class="hero">
         <div class="hero-content">
             <h2 class="hero-brand">Apple Basement</h2>
             <p class="tagline">Start your Apple journey from Apple Basement.</p>
-            <a href="#product-categories" class="btn primary-btn">View All Categories</a>
+            <a href="#product-categories" class="btn primary-btn nav-scroll-link">View All Categories</a>
         </div>
     </section>
-    
+
     <section id="product-categories" class="product-section alt-bg">
         <div class="container">
-            <h2 class="section-title">Explore Our Products by Category </h2>
+            <h2 class="section-title" style="display: none;"></h2> 
             
-            <div id="search-results-message" style="text-align: center; font-size: 1.2em; color: #cc0000; margin-bottom: 20px; display: none;">
-                No products found matching your search term.
-            </div>
-
             <div id="macbook-category" class="category-section">
                 <h3 class="category-title"><i class="fa-solid fa-laptop"></i> MacBook & Desktop</h3>
                 <div class="product-grid">
                     
-                    <div id="macbook-pro" class="product-card macbook" data-search="macbook pro 14 inch m1 16gb 512gb laptop">
+                    <div id="macbook-pro" class="product-card macbook visible" data-details-id="pro-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=MacBook+Pro" alt="Used MacBook Pro 14-inch" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=MacBook+Pro+Image+Here';" >
+                            <img src="1000000926.jpg" alt="Used MacBook Pro 14-inch" data-image-src="1000000926.jpg">
                         </div>
-                        <h3 class="product-title">MacBook Pro (14-inch)</h3>
+                        <h3 class="product-title" data-product-name="MacBook Pro (14-inch)">MacBook Pro (14-inch)</h3>
                         <p class="specs">M1 Pro, 16GB/512GB SSD</p>
-                        <p class="price">৳ 95,000</p>
+                        <p class="price" data-product-price="৳ 95,000">৳ 95,000</p>
                         <a href="#product-details-section" data-product-id="pro" class="btn-details view-details-btn">View Details</a>
                     </div>
-                    
-                    <div id="macbook-air" class="product-card macbook" data-search="macbook air m1 2020 8gb 256gb laptop">
+
+                    <div id="macbook-air" class="product-card macbook visible" data-details-id="air-details">
                         <div class="product-image-placeholder">
-                            <img src="IMG-20251105-WA0002.jpg" alt="Used MacBook Air M1" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=MacBook+Air+M1+Image+Here';" >
+                            <img src="1000000921.jpg" alt="Used MacBook Air M1" data-image-src="1000000921.jpg">
                         </div>
-                        <h3 class="product-title">MacBook Air M1 (2020)</h3>
+                        <h3 class="product-title" data-product-name="MacBook Air M1 (2020)">MacBook Air M1 (2020)</h3>
                         <p class="specs">M1 Chip, 8GB/256GB SSD</p>
-                        <p class="price">৳ 50,000</p>
-                        <a href="#product-details-section" data-product-id="air" class="btn-details view-details-btn">View Details</a> 
+                        <p class="price" data-product-price="৳ 50,000">৳ 50,000</p>
+                        <a href="#product-details-section" data-product-id="air" class="btn-details view-details-btn">View Details</a>
                     </div>
                     
-                    <div id="mac-mini" class="product-card macbook" data-search="mac mini m2 8gb 256gb desktop">
+                    <div id="mac-mini" class="product-card macbook visible" data-details-id="mini-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=Mac+Mini" alt="Used Mac Mini M2" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=Mac+Mini+M2+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=Mac+Mini" alt="Used Mac Mini M2" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=MM">
                         </div>
-                        <h3 class="product-title">Mac Mini M2</h3>
+                        <h3 class="product-title" data-product-name="Mac Mini M2">Mac Mini M2</h3>
                         <p class="specs">M2 Chip, 8GB/256GB SSD</p>
-                        <p class="price">৳ 42,000</p>
+                        <p class="price" data-product-price="৳ 42,000">৳ 42,000</p>
                         <a href="#product-details-section" data-product-id="mini" class="btn-details view-details-btn">View Details</a>
                     </div>
                     
-                    <div id="imac" class="product-card macbook" data-search="imac 24 inch m1 8gb 256gb desktop">
+                    <div id="imac" class="product-card macbook visible" data-details-id="imac-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=iMac+24%22" alt="Used iMac 24-inch" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=iMac+24+inch+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=iMac+24%22" alt="Used iMac 24-inch" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=iMac">
                         </div>
-                        <h3 class="product-title">iMac (24-inch)</h3>
+                        <h3 class="product-title" data-product-name="iMac (24-inch)">iMac (24-inch)</h3>
                         <p class="specs">M1 Chip, 8GB/256GB SSD, Color</p>
-                        <p class="price">৳ 75,000</p>
+                        <p class="price" data-product-price="৳ 75,000">৳ 75,000</p>
                         <a href="#product-details-section" data-product-id="imac" class="btn-details view-details-btn">View Details</a>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             <div id="ipad-category" class="category-section">
                 <h3 class="category-title"><i class="fa-solid fa-tablet"></i> iPad, Watch & AirPods</h3>
                 <div class="product-grid">
-                    
-                    <div id="ipad" class="product-card ipad" data-search="ipad air 5 m1 64gb tablet">
+
+                    <div id="ipad" class="product-card ipad visible" data-details-id="ipad-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=iPad+Air+5" alt="Used iPad Air 5" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=iPad+Air+5+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=iPad+Air+5" alt="Used iPad Air 5" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=iPad">
                         </div>
-                        <h3 class="product-title">iPad Air 5 (Used)</h3>
+                        <h3 class="product-title" data-product-name="iPad Air 5 (Used)">iPad Air 5 (Used)</h3>
                         <p class="specs">M1 Chip, 64GB, Wi-Fi</p>
-                        <p class="price">৳ 40,000</p>
+                        <p class="price" data-product-price="৳ 40,000">৳ 40,000</p>
                         <a href="#product-details-section" data-product-id="ipad" class="btn-details view-details-btn">View Details</a>
                     </div>
-                    
-                    <div id="watch" class="product-card watch" data-search="apple watch se 44mm gps smartwatch">
+
+                    <div id="watch" class="product-card watch visible" data-details-id="watch-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=Apple+Watch+SE" alt="Used Apple Watch SE" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=Apple+Watch+SE+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=Watch+SE" alt="Used Apple Watch SE" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Watch">
                         </div>
-                        <h3 class="product-title">Apple Watch SE (Used)</h3>
-                        <p class="specs">44mm GPS, Midnight</p>
-                        <p class="price">৳ 14,000</p>
+                        <h3 class="product-title" data-product-name="Apple Watch SE (Used)">Apple Watch SE (Used)</h3>
+                        <p class="specs">44mm, GPS + Cellular</p>
+                        <p class="price" data-product-price="৳ 25,000">৳ 25,000</p>
                         <a href="#product-details-section" data-product-id="watch" class="btn-details view-details-btn">View Details</a>
                     </div>
-                    
-                    <div id="airpods" class="product-card airpods" data-search="airpods pro 2nd gen anc wireless headphones">
+
+                    <div id="airpods" class="product-card accessories visible" data-details-id="airpods-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=AirPods+Pro+2" alt="Used AirPods Pro 2" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=AirPods+Pro+2+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=AirPods+3" alt="Used AirPods 3rd Gen" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=AirPods">
                         </div>
-                        <h3 class="product-title">AirPods Pro 2 (Used)</h3>
-                        <p class="specs">Gen 2, ANC, MagSafe Case</p>
-                        <p class="price">৳ 10,000</p>
+                        <h3 class="product-title" data-product-name="AirPods (3rd Gen) Used">AirPods (3rd Gen) Used</h3>
+                        <p class="specs">Spatial Audio, MagSafe Case</p>
+                        <p class="price" data-product-price="৳ 15,000">৳ 15,000</p>
                         <a href="#product-details-section" data-product-id="airpods" class="btn-details view-details-btn">View Details</a>
                     </div>
-                    
                 </div>
             </div>
 
             <div id="accessories-category" class="category-section">
-                <h3 class="category-title"><i class="fa-solid fa-battery-full"></i> Accessories & Parts</h3>
+                <h3 class="category-title"><i class="fa-solid fa-battery-full"></i> Power & Accessories</h3>
                 <div class="product-grid">
-                    
-                    <div id="adapter" class="product-card accessories" data-search="magsafe adapter 67w charger second hand original">
+
+                    <div id="charger" class="product-card accessories visible" data-details-id="charger-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=MagSafe+Adapter" alt="Used MagSafe Adapter" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=MagSafe+Adapter+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=Charger+67W" alt="New 67W USB-C Charger" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Charger">
                         </div>
-                        <h3 class="product-title">MagSafe Adapter (67W)</h3>
-                        <p class="specs">Second Hand, Original</p>
-                        <p class="price">৳ 2,200</p>
-                        <a href="#product-details-section" data-product-id="adapter" class="btn-details view-details-btn">View Details</a>
-                    </div>
-                    
-                    <div id="hub" class="product-card accessories" data-search="premium usb-c hub 7-in-1 adapter">
-                        <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=USB-C+Hub" alt="Used USB-C Hub" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=USB-C+Hub+Image+Here';" >
-                        </div>
-                        <h3 class="product-title">Premium USB-C Hub</h3>
-                        <p class="specs">Genuine, 7-in-1, Metal Body</p>
-                        <p class="price">৳ 3,000</p>
-                        <a href="#product-details-section" data-product-id="hub" class="btn-details view-details-btn">View Details</a>
-                    </div>
-                    
-                    <div id="charger" class="product-card accessories" data-search="20w usb-c charger adapter used original iphone ipad">
-                        <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=20W+Charger" alt="Used 20W Adapter" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=20W+Charger+Image+Here';" >
-                        </div>
-                        <h3 class="product-title">20W USB-C Charger (Used)</h3>
-                        <p class="specs">iPhone/iPad Original</p>
-                        <p class="price">৳ 1,000</p>
+                        <h3 class="product-title" data-product-name="67W USB-C Charger (New)">67W USB-C Charger (New)</h3>
+                        <p class="specs">Original Adapter, Fast Charging</p>
+                        <p class="price" data-product-price="৳ 3,000">৳ 3,000</p>
                         <a href="#product-details-section" data-product-id="charger" class="btn-details view-details-btn">View Details</a>
                     </div>
                     
-                    <div id="keyboard" class="product-card accessories" data-search="apple magic keyboard used touch id">
+                    <div id="case" class="product-card accessories visible" data-details-id="case-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=Magic+Keyboard" alt="Used Magic Keyboard" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=Magic+Keyboard+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=MacBook+Case" alt="MacBook Pro Hard Case" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Case">
                         </div>
-                        <h3 class="product-title">Apple Magic Keyboard</h3>
-                        <p class="specs">Used, with Touch ID</p>
-                        <p class="price">৳ 9,000</p>
-                        <a href="#product-details-section" data-product-id="keyboard" class="btn-details view-details-btn">View Details</a>
+                        <h3 class="product-title" data-product-name="MacBook Pro Hard Case">MacBook Pro Hard Case</h3>
+                        <p class="specs">14-inch, Assorted Colors</p>
+                        <p class="price" data-product-price="৳ 1,500">৳ 1,500</p>
+                        <a href="#product-details-section" data-product-id="case" class="btn-details view-details-btn">View Details</a>
                     </div>
-                    
-                    <div id="battery" class="product-card accessories" data-search="macbook pro battery new replacement a1708">
+
+                    <div id="cable" class="product-card accessories visible" data-details-id="cable-details">
                         <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=MacBook+Battery" alt="MacBook Battery" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=MacBook+Battery+Image+Here';" >
+                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=USB-C+Cable" alt="USB-C to MagSafe Cable" data-image-src="https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Cable">
                         </div>
-                        <h3 class="product-title">MacBook Pro Battery (New)</h3>
-                        <p class="specs">Replacement (A1708 model)</p>
-                        <p class="price">৳ 4,500</p>
-                        <a href="#product-details-section" data-product-id="battery" class="btn-details view-details-btn">View Details</a>
-                    </div>
-                    
-                    <div id="magsafe_3" class="product-card accessories" data-search="magsafe 3 cable original braided 2m charger">
-                        <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=MagSafe+3+Cable" alt="Used MagSafe 3 Cable" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=MagSafe+3+Cable+Image+Here';" >
-                        </div>
-                        <h3 class="product-title">MagSafe 3 Cable (Original)</h3>
-                        <p class="specs">Braided, 2M</p>
-                        <p class="price">৳ 3,200</p>
-                        <a href="#product-details-section" data-product-id="magsafe_3" class="btn-details view-details-btn">View Details</a>
-                    </div>
-                    
-                    <div id="usb_c_adapter" class="product-card accessories" data-search="67w usb-c power adapter charger macbook">
-                        <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=67W+Adapter" alt="Used 67W Adapter" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=67W+Adapter+Image+Here';" >
-                        </div>
-                        <h3 class="product-title">67W USB-C Power Adapter</h3>
-                        <p class="specs">MacBook Air/Pro</p>
-                        <p class="price">৳ 3,500</p>
-                        <a href="#product-details-section" data-product-id="usb_c_adapter" class="btn-details view-details-btn">View Details</a>
-                    </div>
-                    
-                    <div id="cable" class="product-card accessories" data-search="usb-c to c cable original 2m fast charging">
-                        <div class="product-image-placeholder">
-                            <img src="https://via.placeholder.com/300x180/FFFFFF/CCCCCC?text=USB-C+Cable" alt="Used USB-C Cable" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180/F0F0F5/999999?text=USB-C+Cable+Image+Here';" >
-                        </div>
-                        <h3 class="product-title">USB-C to C Cable (Original)</h3>
-                        <p class="specs">2M, Fast Charging</p>
-                        <p class="price">৳ 1,800</p>
+                        <h3 class="product-title" data-product-name="USB-C to MagSafe Cable">USB-C to MagSafe Cable</h3>
+                        <p class="specs">2m Length, Braided</p>
+                        <p class="price" data-product-price="৳ 2,500">৳ 2,500</p>
                         <a href="#product-details-section" data-product-id="cable" class="btn-details view-details-btn">View Details</a>
                     </div>
-                    
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="product-details-section" class="product-section">
+        <div class="container">
+            <div id="pro-details" class="details-section">
+                <h3>Details for MacBook Pro (14-inch)</h3>
+                <p><strong>Condition:</strong> Used, Excellent condition, 9.5/10. </p>
+                <p><strong>Key Specs:</strong> Apple M1 Pro Chip, 16GB Unified Memory, 512GB SSD. </p>
+                <p><strong>Display:</strong> 14.2-inch Liquid Retina XDR display. </p>
+                <p><strong>Price:</strong> ৳ 95,000</p>
+            </div>
+            
+            <div id="air-details" class="details-section">
+                <h3>Details for MacBook Air M1 (2020)</h3>
+                <p><strong>Condition:</strong> Reconditioned, Near mint condition. </p>
+                <p><strong>Key Specs:</strong> Apple M1 Chip, 8GB Unified Memory, 256GB SSD. </p>
+                <p><strong>Battery Cycle Count:</strong> Low cycle count, Health 95%+. </p>
+                <p><strong>Price:</strong> ৳ 50,000</p>
+            </div>
+
+            <div id="mini-details" class="details-section">
+                <h3>Details for Mac Mini M2</h3>
+                <p><strong>Condition:</strong> Used, like new. </p>
+                <p><strong>Key Specs:</strong> Apple M2 Chip, 8GB Unified Memory, 256GB SSD. </p>
+                <p><strong>Connections:</strong> Two Thunderbolt 4 ports, Two USB-A ports, HDMI port, Gigabit Ethernet. </p>
+                <p><strong>Price:</strong> ৳ 42,000</p>
+            </div>
+            
+            <div id="imac-details" class="details-section">
+                <h3>Details for iMac (24-inch)</h3>
+                <p><strong>Condition:</strong> Used, Excellent condition. </p>
+                <p><strong>Key Specs:</strong> Apple M1 Chip, 8GB Unified Memory, 256GB SSD. </p>
+                <p><strong>Display:</strong> 24-inch 4.5K Retina display. </p>
+                <p><strong>Price:</strong> ৳ 75,000</p>
+            </div>
+
+            <div id="ipad-details" class="details-section">
+                <h3>Details for iPad Air 5 (Used)</h3>
+                <p><strong>Condition:</strong> Used, Minor scratches only. </p>
+                <p><strong>Key Specs:</strong> Apple M1 Chip, 64GB Storage, Wi-Fi. </p>
+                <p><strong>Compatible Accessories:</strong> Apple Pencil (2nd gen), Magic Keyboard. </p>
+                <p><strong>Price:</strong> ৳ 40,000</p>
+            </div>
+
+            <div id="watch-details" class="details-section">
+                <h3>Details for Apple Watch SE (Used)</h3>
+                <p><strong>Condition:</strong> Reconditioned, Excellent condition. </p>
+                <p><strong>Key Specs:</strong> 44mm, GPS + Cellular, Aluminium Case. </p>
+                <p><strong>Water Resistance:</strong> 50 meters. </p>
+                <p><strong>Price:</strong> ৳ 25,000</p>
+            </div>
+
+            <div id="airpods-details" class="details-section">
+                <h3>Details for AirPods (3rd Gen) Used</h3>
+                <p><strong>Condition:</strong> Used, Fully cleaned and sanitized. </p>
+                <p><strong>Key Specs:</strong> Spatial Audio, Sweat and water resistant. </p>
+                <p><strong>Charging Case:</strong> MagSafe Charging Case. </p>
+                <p><strong>Price:</strong> ৳ 15,000</p>
+            </div>
+
+            <div id="charger-details" class="details-section">
+                <h3>Details for 67W USB-C Charger (New)</h3>
+                <p><strong>Condition:</strong> Brand New, Retail Packaging. </p>
+                <p><strong>Compatibility:</strong> MacBook Pro 13-inch/14-inch, MacBook Air, iPad Pro. </p>
+                <p><strong>Safety:</strong> Over-current and over-voltage protection. </p>
+                <p><strong>Price:</strong> ৳ 3,000</p>
+            </div>
+            
+            <div id="case-details" class="details-section">
+                <h3>Details for MacBook Pro Hard Case</h3>
+                <p><strong>Condition:</strong> New. </p>
+                <p><strong>Material:</strong> Durable Polycarbonate. </p>
+                <p><strong>Compatibility:</strong> 14-inch MacBook Pro (M1/M2/M3). </p>
+                <p><strong>Price:</strong> ৳ 1,500</p>
+            </div>
+            
+            <div id="cable-details" class="details-section">
+                <h3>Details for USB-C to MagSafe Cable</h3>
+                <p><strong>Condition:</strong> New, High-Quality OEM. </p>
+                <p><strong>Length:</strong> 2 meters. </p>
+                <p><strong>Compatibility:</strong> MacBook Pro/Air with MagSafe 3 Port. </p>
+                <p><strong>Price:</strong> ৳ 2,500</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="policy-section-container" class="policy-container-section alt-bg" style="padding: 60px 0; background-color: #f7f7f7; border-top: 5px solid #0070c9; text-align: center; display: none;">
+        <div class="container">
+            <div id="return-policy-content" class="policy-content" style="display: none; padding: 25px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin: 0 auto;">
+                <h2>Return & Refund Policy</h2>
+                
+                <p>70% Cash is Refundable In Case Of Return Without Any Damage After Buying Within 5 Days.</p>
+                <p>গ্রাহক ক্রয়ের **5 দিনের মধ্যে বিনা ক্ষতিতে পণ্য ফেরত দিলে ক্রয়মূল্যের ৭০% টাকা পাবে**। 5 দিন পার হবার পর এই সুযোগ আর নেই।</p>
+
+                <h3>গুরুত্বপূর্ণ নোটিশ*</h3>
+                <p>যেকোনো ধরণের কাগজপত্র (বিল/মেমো/রসিদ) হারিয়ে গেলে পুনরায় সংগ্রহ করার সময় নির্ধারিত ফি প্রদান করতে হবে। কর্পোরেট অফিসে যেমন এই নিয়ম কার্যকর আছে, ঠিক তেমনি আমাদের শো-রুমেও একই নিয়ম প্রযোজ্য। সুতরাং, **মেমো হারালে পুনরায় চাইলে ফি প্রদান করতে হবে**। তাই গ্রাহকদের প্রতি অনুরোধ, কাগজপত্র/মেমো ভালোভাবে সংরক্ষণ করুন।</p>
+                
+                <h4>ফি:</h4>
+                <ul style="margin-left: 20px;">
+                    <li>মূল ম্যামোর সিরিয়াল নাম্বার বা সিরিয়াল নাম্বার স্পষ্ট বোঝা যায় এমন ছবি দিতে পারলে- **২০০ টাকা**</li>
+                    <li>সেটিও না দিতে পারলে- **৫০০ টাকা**</li>
+                </ul>
+            </div>
+
+            <div id="terms-conditions-content" class="policy-content" style="display: none; padding: 25px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin: 0 auto;">
+                <h2>Terms & Conditions</h2>
+                
+                <p><strong>Conditions: (For Used & Opex Box Laptops)</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>5 Days Parts Replacement Guarantee Without Display, Adapter & Casing. If The Same Model/Variant Is Not Available, Then With Any Available Product By Adjusting Price, Decided by Apple Basement.</li>
+                    <li>If Any Product Is Lost Or Damaged Through The Courier Service, The Customer Will Contact The Courier Company, Apple Basement Authority Is Not Responsible.</li>
+                    <li>If Product Has No Fault As Per Deal/Advertisement & Customer Changes His/Her Mind Without Any Logical/Valid Reason, Pre-Order/Pre-Booked Money Won't Be Refunded.</li>
+                </ol>
+            </div>
+
+            <div id="warranty-details-content" class="policy-content" style="display: none; padding: 25px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin: 0 auto;">
+                <h2>Warranty Details</h2>
+                
+                <p>2 Years Service Warranty Without Parts. If Service Is Not Possible, Then New Parts Need To Be Purchase By Customer.</p>
+                <p>The Warranty/Guarantee Is Not Applicable For Any: Physical Damage, Internal Burn, Warranty Sticker Damage/Removing, Etc.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="disclaimer-section">
+        <div class="container">
+            <h2>About Apple Basement & Disclaimer</h2>
+            <div class="disclaimer-content">
+                <p>Welcome to Apple Basement! &nbsp;&nbsp;</p>
+                <p>We specialize in selling <strong>used and reconditioned MacBooks</strong>, including MacBook Air, MacBook Pro, iMac, and Mac Mini. </p>
+                <p>All laptops are <strong>fully checked, cleaned, and tested</strong> by our expert team. </p>
+                <p>⚠️ Please note: This page is <strong>not an official Apple store</strong>. </p>
+                <p>We provide <strong>quality laptops at affordable prices</strong> for tech enthusiasts in Bangladesh.</p>
+                
+                <hr style="margin: 20px 0; border-color: #f0f0f0;">
+                
+                <p style="font-weight: 600; color: #333;">
+                    <strong style="color: #cc0000;">N.B:</strong> যেহেতু এগুলো ব্যবহৃত (Used/Open-Box) ল্যাপটপ, তাই বাহ্যিক অবস্থা (যেমন: স্ক্র্যাচ, ডেন্ট ইত্যাদি) অনুযায়ী পণ্যের **গ্রেড ও মূল্য ভিন্ন হতে পারে**। আমাদের ওয়েবসাইট/সোশ্যাল মিডিয়ায় প্রদর্শিত ডিসকাউন্টেড মূল্য সাধারণত মাঝারি অবস্থার (**Grade B**) ডিভাইসের জন্য প্রযোজ্য। অপেক্ষাকৃত ফ্রেশ (**Grade A**) ল্যাপটপের দাম কিছুটা বেশি হতে পারে, আবার বাহ্যিকভাবে কম ফ্রেশ (**Grade C**) হলে দাম তুলনামূলক কম হতে পারে।
+                </p>
+                
+                <p style="margin-top: 15px;">
+                    <strong style="color: #0070c9;">N.B: Replacement</strong> Means 5 দিনের মধ্যে বিনা মূল্য কর্তনে যন্ত্রাংশ পরিবর্তন করে দেওয়া, <strong style="color: #0070c9;">Exchange</strong> Means একটি পণ্যের বদলে অন্য পণ্য নেয়াঃ এক্ষেত্রে কাস্টোমারের পণ্যের মূল্য Apple Basement ক্রয় বিভাগ নির্ধারণ করবে। <strong style="color: #0070c9;">Refund</strong> Means গ্রাহক ক্রয়ের 5 দিনের মধ্যে বিনা ক্ষতিতে পণ্য ফেরত দিলে ক্রয়মূল্যের ৭০% টাকা পাবে। 5 দিন পার হবার পর এই সুযোগ আর নেই।
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact-section" class="product-section">
+        <div class="container">
+            <h2 class="section-title">Connect With Us</h2>
+            
+            <div class="contact-cards-container">
+                
+                <a href="tel:+8801719658378" class="contact-card">
+                    <i class="fa-solid fa-phone"></i>
+                    <h4>Call or WhatsApp</h4>
+                    <p>01719658378</p>
+                </a>
+
+                <a href="mailto:basementapple368@gmail.com" class="contact-card">
+                    <i class="fa-solid fa-envelope"></i>
+                    <h4>Send Us Email</h4>
+                    <p>basementapple368@gmail.com</p>
+                </a>
+
+                <a href="https://m.me/applebasement" target="_blank" class="contact-card"> 
+                    <i class="fab fa-facebook-messenger"></i>
+                    <h4>Message on Facebook</h4>
+                    <p>Fastest Response</p>
+                </a>
             </div>
             
         </div>
     </section>
     
-    <section id="product-details-section" class="product-section">
-        <div class="container">
-            <h2 class="section-title">Selected Details</h2>
+    <section id="registration" class="product-section alt-bg">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title" style="color: #1a1a1a;">Customer Registration</h2>
+            <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Create an account to get exclusive deals and faster checkout.</p>
             
-            <div id="about-info" class="details-section">
-                <h3>About Apple Basement</h3>
-                <p><strong>Apple Basement</strong> is your trusted partner for high-quality used and new Apple products, serving the Sylhet area (Mejortila). We are dedicated to providing genuine Apple devices, accessories, and reliable service to our customers.</p>
-                <p>Our commitment lies in ensuring transparency, competitive pricing, and excellent customer support throughout your Apple journey. Whether you're looking for a pre-owned MacBook, an iPad, or a specific accessory, we strive to meet your needs with professionalism and expertise.</p>
+            <div style="max-width: 400px; margin: 0 auto; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+                <form onsubmit="alert('Registration Successful (Placeholder)'); return false;">
+                    <div style="margin-bottom: 15px;">
+                        <input type="text" placeholder="Full Name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <input type="email" placeholder="Email Address" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <input type="password" placeholder="Password" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <button type="submit" class="btn primary-btn" style="width: 100%; background-color: #0070c9;">Register Now</button>
+                </form>
             </div>
-
-            <div id="disclaimer-details" class="details-section">
-                <h3>Disclaimer Notice</h3>
-                <p style="white-space: pre-line;">
-                    Welcome to Apple Basement! 
-
-                    We specialize in selling **used and reconditioned MacBooks**, including MacBook Air, MacBook Pro, iMac, and Mac Mini. 
-                    All laptops are **fully checked, cleaned, and tested** by our expert team. 
-
-                    ⚠️ Please note: This page is **not an official Apple store**. 
-                    We provide **quality laptops at affordable prices** for tech enthusiasts in Bangladesh.
-
-                    Contact: <a href="mailto:basementapple368@gmail.com">basementapple368@gmail.com</a>
-                </p>
-            </div>
-            <div id="air-details" class="details-section">
-                <h3>MacBook Air M1 Details</h3>
-                <p><strong>Condition:</strong> Excellent Used (Cycle Count Low)</p>
-                <p><strong>Storage:</strong> 256GB SSD</p>
-                <p><strong>RAM:</strong> 8GB Unified Memory</p>
-                <p><strong>Price:</strong> ৳ 50,000</p>
-                <p>Call or WhatsApp to check stock status and purchase.</p>
-            </div>
-            <div id="pro-details" class="details-section">
-                <h3>MacBook Pro (14-inch) Details</h3>
-                <p><strong>Condition:</strong> Used - Like New</p>
-                <p><strong>Chip:</strong> M1 Pro</p>
-                <p><strong>Storage:</strong> 512GB SSD</p>
-                <p><strong>Price:</strong> ৳ 95,000</p>
-                <p>Contact for full specs and warranty information.</p>
-            </div>
-            <div id="mini-details" class="details-section">
-                <h3>Mac Mini M2 Details</h3>
-                <p><strong>Condition:</strong> Used</p>
-                <p><strong>Chip:</strong> M2</p>
-                <p><strong>Storage:</strong> 256GB SSD</p>
-                <p><strong>Price:</strong> ৳ 42,000</p>
-                <p>A compact powerhouse. Available in silver.</p>
-            </div>
-            <div id="imac-details" class="details-section">
-                <h3>iMac (24-inch) Details</h3>
-                <p><strong>Condition:</strong> Used</p>
-                <p><strong>Chip:</strong> M1</p>
-                <p><strong>Display:</strong> 4.5K Retina</p>
-                <p><strong>Price:</strong> ৳ 75,000</p>
-                <p>Perfect for home and office use.</p>
-            </div>
-            <div id="ipad-details" class="details-section">
-                <h3>iPad Air 5 Details</h3>
-                <p><strong>Condition:</strong> Used</p>
-                <p><strong>Chip:</strong> M1</p>
-                <p><strong>Storage:</strong> 64GB</p>
-                <p><strong>Price:</strong> ৳ 40,000</p>
-                <p>Wi-Fi model, great for productivity.</p>
-            </div>
-            <div id="watch-details" class="details-section">
-                <h3>Apple Watch SE Details</h3>
-                <p><strong>Condition:</strong> Used</p>
-                
-                <p><strong>Model:</strong> SE (2nd Gen), 44mm GPS</p>
-                <p><strong>Color:</strong> Midnight</p>
-                <p><strong>Price:</strong> ৳ 14,000</p>
-                <p>Excellent battery health.</p>
-            </div>
-            <div id="airpods-details" class="details-section">
-                <h3>AirPods Pro 2 Details</h3>
-                <p><strong>Condition:</strong> Used</p>
-                <p><strong>Generation:</strong> 2nd Gen</p>
-                <p><strong>Features:</strong> Active Noise Cancellation, Adaptive Transparency</p>
-                <p><strong>Price:</strong> ৳ 10,000</p>
-                <p>Comes with MagSafe Charging Case.</p>
-            </div>
-            <div id="adapter-details" class="details-section">
-                <h3>MagSafe Adapter (67W) Details</h3>
-                <p>Original Apple 67W MagSafe Adapter. Used but fully functional. Includes cable.</p>
-            </div>
-            <div id="hub-details" class="details-section">
-                <h3>Premium USB-C Hub Details</h3>
-                <p>7-in-1 Aluminum Hub. Ports: HDMI, USB-A (x2), SD/TF, USB-C PD, Ethernet.</p>
-            </div>
-            <div id="charger-details" class="details-section">
-                <h3>20W USB-C Charger Details</h3>
-                <p>Used Apple Original 20W Adapter. Perfect for fast charging iPhone/iPad.</p>
-            </div>
-            <div id="keyboard-details" class="details-section">
-                <h3>Apple Magic Keyboard Details</h3>
-                <p>Used Magic Keyboard with Touch ID. Full-size layout, rechargeable battery.</p>
-            </div>
-            <div id="battery-details" class="details-section">
-                <h3>MacBook Pro Battery Details</h3>
-                <p>Brand new replacement battery (A1708 compatible). Installation service available.</p>
-            </div>
-            <div id="magsafe_3-details" class="details-section">
-                <h3>MagSafe 3 Cable Details</h3>
-                <p>Original Apple MagSafe 3 Cable (2M, Braided). Used once, like new condition.</p>
-            </div>
-            <div id="usb_c_adapter-details" class="details-section">
-                <h3>67W USB-C Power Adapter Details</h3>
-                <p>Original Apple USB-C Power Adapter. Ideal for MacBook Air and 13-inch Pro models.</p>
-            </div>
-            <div id="cable-details" class="details-section">
-                <h3>USB-C to C Cable Details</h3>
-                <p>Original Apple 2M USB-C to USB-C Cable. Fast charging and data transfer.</p>
-            </div>
-
-            <div id="default-details" class="details-section active">
-                <h3>Select a Product to View Details</h3>
-                <p>Click on the "View Details" button beneath any product card above to see detailed specifications and purchase information for that item. The information will appear here.</p>
-            </div>
+            <p style="margin-top: 20px; color: #777;">Already have an account? <a href="#" style="color: #0070c9; text-decoration: none; font-weight: 600;">Login</a></p>
         </div>
     </section>
 
-    <section id="contact-section" class="product-section alt-bg">
-        <div class="container" style="max-width: 800px; text-align: center;">
-            <h2 class="section-title">Contact Us</h2>
-            <p style="font-size: 1.1em; margin-bottom: 20px; color: #333;">Have questions about our products or services? Feel free to reach out to us!</p>
-            
-            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 30px;">
-                <div style="margin: 15px; text-align: center;">
-                    <i class="fa-solid fa-phone" style="font-size: 2.5em; color: #0070c9; margin-bottom: 10px;"></i>
-                    <p style="font-weight: 600;">Phone/WhatsApp</p>
-                    <p style="color: #333;"><a href="tel:+8801719658378" style="color: #333; text-decoration: none;">01719658378</a></p>
-                </div>
-                <div style="margin: 15px; text-align: center;">
-                    <i class="fa-solid fa-envelope" style="font-size: 2.5em; color: #0070c9; margin-bottom: 10px;"></i>
-                    <p style="font-weight: 600;">Email</p>
-                    <p style="color: #333;"><a href="mailto:basementapple368@gmail.com" style="color: #333; text-decoration: none;">basementapple368@gmail.com</a></p>
-                </div>
-                <div style="margin: 15px; text-align: center;">
-                    <i class="fa-solid fa-location-dot" style="font-size: 2.5em; color: #0070c9; margin-bottom: 10px;"></i>
-                    <p style="font-weight: 600;">Location</p>
-                    <p style="color: #333;">Sylhet, Mejortila</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 50px;">
-                <a href="mailto:basementapple368@gmail.com?subject=Inquiry%20from%20Website" class="btn primary-btn" style="padding: 15px 40px; font-size: 1.1em;">Send Us a Message</a>
-            </div>
-        </div>
-    </section>
 
     <footer class="footer">
-        <div class="container footer-grid">
-            <div class="footer-logo-section">
-                <h3>Apple Basement</h3>
-                <p>Your trusted source for premium used and brand-new Apple products and accessories in Sylhet, Bangladesh.</p>
-                
-                <div style="margin-top: 20px;">
-                    <p style="margin-bottom: 5px;"><strong>Location:</strong> Sylhet, Mejortila</p>
-                    <p style="margin-bottom: 5px;"><strong>Phone:</strong> <a href="tel:+8801719658378" style="color: #0070c9;">01719658378</a></p>
-                    <p style="margin-bottom: 5px;"><strong>WhatsApp:</strong> <a href="https://wa.me/8801961454604" style="color: #0070c9;">01961454604</a></p>
-                    <p style="margin-bottom: 5px;"><strong>Email:</strong> <a href="mailto:basementapple368@gmail.com" style="color: #0070c9;">basementapple368@gmail.com</a></p>
-                </div>
-
-                <div class="download-apps-section">
-                    <h5>Download Our Apps</h5>
-                    <div class="app-link-wrapper">
-                         <a href="#" class="app-link" aria-label="App Store">
-                            <i class="fa-brands fa-apple"></i>
-                            <div>
-                                <span class="text-small">Download on the</span>
-                                <span class="text-large">App Store</span>
-                            </div>
-                        </a>
-                        <a href="#" class="app-link" aria-label="Google Play Store">
-                            <i class="fa-brands fa-google-play"></i>
-                            <div>
-                                <span class="text-small">GET IT ON</span>
-                                <span class="text-large">Google Play</span>
-                            </div>
-                        </a>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-section">
+                    <h3>Apple Basement</h3>
+                    <img src="logo.png.png" alt="Apple Basement Logo" class="footer-logo">
+                    
+                    <p>Premium used and reconditioned Apple products.</p>
+                    <p>Trusted source for MacBooks, iPads, and accessories.</p>
+                    
+                    <p class="footer-phone-box">Phone: <strong>01719658378</strong></p>
+                    
+                    <p><i class="fa-solid fa-envelope"></i> <strong>basementapple368@gmail.com</strong></p>
+                    
+                    <div class="app-links">
+                        <a href="#" aria-label="Facebook Page"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram Profile"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube Channel"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-
-                <div class="social-links">
-                    <h5>Follow Us</h5>
-                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                
+                <div class="footer-links-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#top">Home</a></li>
+                        <li><a href="#product-categories">All Products</a></li>
+                        <li><a href="#disclaimer-section" class="nav-scroll-link policy-toggle-btn" data-target="disclaimer">About & Disclaimer</a></li>
+                        <li><a href="#contact-section">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#macbook-category">MacBook Pro & Air</a></li>
+                        <li><a href="#ipad-category">iPad & Watch</a></li>
+                        <li><a href="#accessories-category">Accessories & Power</a></li>
+                    </ul>
                 </div>
 
-            </div>
-            
-            <div>
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#top">Home</a></li>
-                    <li><a href="#macbook-category">MacBook</a></li>
-                    <li><a href="#ipad-category">iPad & Watch</a></li>
-                    <li><a href="#accessories-category">Accessories</a></li>
-                    <li><a href="#about-info" class="dynamic-link" data-target="about-info">About Us</a></li>
-                </ul>
-            </div>
-            
-            <div>
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#">Warranty & Returns</a></li>
-                    <li><a href="#">Trade-in Program</a></li>
-                    <li><a href="#">Servicing & Repair</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            
-            <div>
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#disclaimer-details" class="dynamic-link" data-target="disclaimer-details">Disclaimer</a></li>
-                </ul>
+                <div class="footer-links-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#policy-section-container" class="nav-scroll-link policy-toggle-btn" data-target="return-policy">Return & Refund Policy</a></li>
+                        <li><a href="#policy-section-container" class="nav-scroll-link policy-toggle-btn" data-target="warranty-details">Warranty Details</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="newsletter-section">
+                    <h4>Newsletter</h4>
+                    <p>Sign up to get latest news and updates.</p>
+                    <form class="newsletter-form" onsubmit="alert('Subscribed! (Placeholder)'); return false;">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
             </div>
         </div>
-        
         <div class="copyright-bar">
             <div class="container">
-                &copy; 2025 Apple Basement. All rights reserved.
+                &copy; <span id="current-year">2024</span> Apple Basement. All rights reserved.
             </div>
         </div>
     </footer>
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script>
-        // --- স্লাইডশো ফাংশনালিটি (অপরিবর্তিত) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const wrapper = document.querySelector('.carousel-slide-wrapper');
-            const slides = document.querySelectorAll('.carousel-item');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const dotsContainer = document.querySelector('.carousel-dots');
-            
-            if (!wrapper || slides.length === 0) return; 
-            
-            let currentSlide = 0;
-            let autoSlideInterval;
-            const totalSlides = slides.length;
+        $(document).ready(function() {
+            // কপিরাইট বছরের জন্য ডাইনামিক আপডেট
+            $('#current-year').text(new Date().getFullYear());
+
+            // --- স্মুথ স্ক্রলিং, ডিসক্লেইমার এবং পলিসি টগল (FINAL UPDATED) ---
+            $('.nav-scroll-link').on('click', function(e) {
+                const href = $(this).attr('href');
+                const isPolicyToggle = $(this).hasClass('policy-toggle-btn');
+                
+                // হেডারের উচ্চতা
+                const headerHeight = $('.header-section').outerHeight();
+                const targetId = $(this).data('target');
+
+
+                if (isPolicyToggle) {
+                    e.preventDefault();
+                    
+                    // ডিসক্লেইমার/পলিসি কন্টেইনার
+                    const $policyContainer = $('#policy-section-container');
+                    const $disclaimerSection = $('#disclaimer-section');
+                    
+                    // সব কন্টেন্ট লুকানো
+                    $('.policy-content').slideUp(200);
+                    $policyContainer.slideUp(200);
+                    $disclaimerSection.slideUp(200);
+
+
+                    if (targetId === 'disclaimer') {
+                        // যদি About/Disclaimer টার্গেট হয়
+                        if ($disclaimerSection.is(':visible')) {
+                            // যদি খোলা থাকে, তবে বন্ধ করুন (Toggle)
+                            $disclaimerSection.slideUp(400);
+                        } else {
+                            // যদি বন্ধ থাকে, তবে খুলুন
+                            $disclaimerSection.slideDown(400, function() {
+                                // খোলার পর স্ক্রল করুন
+                                $('html, body').animate({
+                                    scrollTop: $disclaimerSection.offset().top - headerHeight
+                                }, 600);
+                            });
+                        }
+
+                    } else {
+                        // T&C, Return Policy বা Warranty টার্গেট হলে
+                        const targetContentId = targetId + '-content';
+                        
+                        // পলিসি কন্টেইনার খুলুন
+                        $policyContainer.slideDown(400, function() {
+                            // খোলার পর স্ক্রল করুন
+                            $('html, body').animate({
+                                scrollTop: $policyContainer.offset().top - headerHeight
+                            }, 600);
+                            
+                            // টার্গেটেড কন্টেন্ট দেখান
+                            $('#' + targetContentId).delay(200).slideDown(400);
+                        });
+                    }
+
+                } else if (this.hash !== "") {
+                    // অন্যান্য সেকশনে (Home, MacBooks, Contact, Register) স্ক্রলিং
+                    e.preventDefault();
+                    var hash = this.hash;
+                    
+                    // অন্য কোনো সেকশনে স্ক্রল করার আগে ডিসক্লেইমার ও পলিসি সেকশন লুকিয়ে দিন (UX-এর জন্য)
+                    $('#disclaimer-section').slideUp(200);
+                    $('#policy-section-container').slideUp(200);
+                    $('.policy-content').slideUp(200);
+
+
+                    // হেডারের উচ্চতা বিবেচনা করে স্ক্রল অফসেট সেট করা
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top - headerHeight
+                    }, 800, function(){
+                        // window.location.hash = hash; 
+                    });
+                }
+            });
+
+            // --- প্রোডাক্ট ডিটেইলস ডিসপ্লে (ভিউ ডিটেইলস বাটন) ---
+            $('.view-details-btn').on('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = $(this).data('product-id') + '-details';
+                const $targetSection = $('#' + targetId);
+                const $detailsSection = $('#product-details-section');
+
+                // প্রথমে সব ডিটেইলস সেকশন লুকানো
+                $detailsSection.find('.details-section').removeClass('active');
+                
+                // শুধুমাত্র সংশ্লিষ্ট ডিটেইলস সেকশন দেখানো
+                if ($targetSection.length) {
+                    $targetSection.addClass('active');
+                    $detailsSection.addClass('active');
+
+                    // ডিটেইলস সেকশনে স্মুথ স্ক্রল করা
+                    const headerHeight = $('.header-section').outerHeight();
+                    $('html, body').animate({
+                        scrollTop: $detailsSection.offset().top - headerHeight
+                    }, 600);
+                }
+            });
+
+            // --- স্লাইডশো / ক্যারোসেল কার্যকারিতা ---
+            const $carouselWrapper = $('.carousel-slide-wrapper');
+            const $carouselItems = $('.carousel-item');
+            const totalItems = $carouselItems.length;
+            let currentIndex = 0;
+            let slideInterval;
             
             // ডট তৈরি করা
-            for (let i = 0; i < totalSlides; i++) {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                if (i === 0) dot.classList.add('active');
-                dot.dataset.index = i;
-                dotsContainer.appendChild(dot);
+            const $carouselDots = $('.carousel-dots');
+            $carouselItems.each(function(index) {
+                $carouselDots.append('<span class="dot" data-index="' + index + '"></span>');
+            });
+            const $dots = $('.dot');
+            
+            function updateCarousel() {
+                // স্লাইড পজিশন আপডেট
+                $carouselWrapper.css('transform', 'translateX(' + (-currentIndex * 100) + '%)');
                 
-                dot.addEventListener('click', () => {
-                    goToSlide(i);
-                    resetAutoSlide(); 
-                });
+                // ডট স্টাইল আপডেট
+                $dots.removeClass('active');
+                $dots.eq(currentIndex).addClass('active');
             }
 
-            const dots = document.querySelectorAll('.dot');
-
-            // স্লাইড পরিবর্তনের ফাংশন
-            function goToSlide(index) {
-                if (index < 0) {
-                    index = totalSlides - 1; 
-                } else if (index >= totalSlides) {
-                    index = 0; 
-                }
-                currentSlide = index;
-                const offset = -currentSlide * 100;
-                wrapper.style.transform = `translateX(${offset}%)`;
-                updateDots();
+            function goToNext() {
+                currentIndex = (currentIndex + 1) % totalItems;
+                updateCarousel();
             }
 
-            // ডট আপডেট করার ফাংশন
-            function updateDots() {
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentSlide);
-                });
+            function goToPrev() {
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                updateCarousel();
             }
 
-            // স্বয়ংক্রিয় স্লাইড শুরু করা
-            function startAutoSlide() {
-                autoSlideInterval = setInterval(() => {
-                    goToSlide(currentSlide + 1);
-                }, 5000); // প্রতি 5 সেকেন্ড পর পর স্লাইড পরিবর্তন হবে
+            // বাটন ইভেন্ট
+            $('#next-btn').on('click', function() {
+                goToNext();
+                resetInterval(); 
+            });
+
+            $('#prev-btn').on('click', function() {
+                goToPrev();
+                resetInterval();
+            });
+
+            // ডট ইভেন্ট
+            $dots.on('click', function() {
+                currentIndex = $(this).data('index');
+                updateCarousel();
+                resetInterval();
+            });
+
+            // অটো স্লাইড
+            function startInterval() {
+                slideInterval = setInterval(goToNext, 5000); // প্রতি 5 সেকেন্ড পর স্লাইড
             }
             
-            // স্বয়ংক্রিয় স্লাইড রিসেট করা
-            function resetAutoSlide() {
-                clearInterval(autoSlideInterval);
-                startAutoSlide();
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startInterval();
             }
 
-            // প্রিভিয়াস বাটন ক্লিক
-            prevBtn.addEventListener('click', () => {
-                goToSlide(currentSlide - 1);
-                resetAutoSlide();
-            });
+            // প্রাথমিক সেটআপ
+            updateCarousel();
+            startInterval();
+            
+            // --- ✅ লাইভ সার্চ (jQuery UI Autocomplete) ---
+            const products = [
+                { label: "MacBook Pro (14-inch)", value: "MacBook Pro (14-inch)", price: "৳ 95,000", id: "pro", image: "1000000926.jpg" },
+                { label: "MacBook Air M1 (2020)", value: "MacBook Air M1 (2020)", price: "৳ 50,000", id: "air", image: "1000000921.jpg" },
+                { label: "Mac Mini M2", value: "Mac Mini M2", price: "৳ 42,000", id: "mini", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=MM" },
+                { label: "iMac (24-inch)", value: "iMac (24-inch)", price: "৳ 75,000", id: "imac", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=iMac" },
+                { label: "iPad Air 5 (Used)", value: "iPad Air 5 (Used)", price: "৳ 40,000", id: "ipad", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=iPad" },
+                { label: "Apple Watch SE (Used)", value: "Apple Watch SE (Used)", price: "৳ 25,000", id: "watch", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Watch" },
+                { label: "AirPods (3rd Gen) Used", value: "AirPods (3rd Gen) Used", price: "৳ 15,000", id: "airpods", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=AirPods" },
+                { label: "67W USB-C Charger (New)", value: "67W USB-C Charger (New)", price: "৳ 3,000", id: "charger", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Charger" },
+                { label: "MacBook Pro Hard Case", value: "MacBook Pro Hard Case", price: "৳ 1,500", id: "case", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Case" },
+                { label: "USB-C to MagSafe Cable", value: "USB-C to MagSafe Cable", price: "৳ 2,500", id: "cable", image: "https://via.placeholder.com/40x40/FFFFFF/CCCCCC?text=Cable" }
+            ];
 
-            // নেক্সট বাটন ক্লিক
-            nextBtn.addEventListener('click', () => {
-                goToSlide(currentSlide + 1);
-                resetAutoSlide();
-            });
+            $("#search-input").autocomplete({
+                minLength: 2, 
+                source: function(request, response) {
+                    var term = $.ui.autocomplete.escapeRegex(request.term).toLowerCase();
+                    var matcher = new RegExp(term, "i");
+                    var filtered = $.grep(products, function(item) {
+                        // সার্চ করার সময় প্রোডাক্টের নাম ব্যবহার করা
+                        return matcher.test(item.label.toLowerCase());
+                    });
+                    response(filtered);
+                },
+                focus: function(event, ui) {
+                    $("#search-input").val(ui.item.label);
+                    return false;
+                },
+                select: function(event, ui) {
+                    // ডিটেইলস সেকশনে স্ক্রল করা এবং সংশ্লিষ্ট ডিটেইলস দেখানো
+                    const targetId = ui.item.id + '-details';
+                    const $targetSection = $('#' + targetId);
+                    const $detailsSection = $('#product-details-section');
 
-            // প্রথমবার স্লাইডশো শুরু
-            startAutoSlide();
-        });
-
-
-        // --- পণ্য ডিটেইলস এবং ডাইনামিক লিঙ্ক ফাংশনালিটি (অপরিবর্তিত) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const detailButtons = document.querySelectorAll('.view-details-btn');
-            const dynamicLinks = document.querySelectorAll('.dynamic-link'); 
-            const detailSections = document.querySelectorAll('.details-section');
-            const defaultDetail = document.getElementById('default-details');
-            const detailSectionWrapper = document.getElementById('product-details-section');
-
-            function showDetails(targetId) {
-                // সকল ডিটেইলস সেকশন লুকানো 
-                detailSections.forEach(section => {
-                    section.classList.remove('active');
-                });
-
-                const targetSection = document.getElementById(targetId);
-
-                if (targetSection) {
-                    targetSection.classList.add('active');
-                    // ডিটেইলস সেকশনে স্মুথ স্ক্রল
-                    detailSectionWrapper.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    // ডিফল্ট মেসেজ দেখানো
-                    defaultDetail.classList.add('active');
-                }
-            }
-
-            // পণ্যের "View Details" বাটন হ্যান্ডেল করা
-            detailButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const productId = this.getAttribute('data-product-id');
-                    const targetDetailId = productId + '-details';
-                    showDetails(targetDetailId);
-                });
-            });
-
-            // "About Us", "Disclaimer" বা অন্যান্য ডাইনামিক লিঙ্ক হ্যান্ডেল করা
-            dynamicLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('data-target');
-                    if (targetId) {
-                         showDetails(targetId);
-                    }
-                });
-            });
-        });
-        
-        // --- কার্যকরী সার্চ ফাংশনালিটি (অপরিবর্তিত) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.getElementById('search-input');
-            const searchForm = document.getElementById('search-form');
-            const productCards = document.querySelectorAll('.product-card');
-            const searchMessage = document.getElementById('search-results-message');
-
-            // ফর্ম সাবমিট প্রতিরোধ
-            searchForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-            });
-
-            // টাইপ করার সাথে সাথেই সার্চ করার জন্য 'input' ইভেন্ট ব্যবহার করা
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.trim().toLowerCase();
-                let matchFound = false;
-
-                productCards.forEach(card => {
-                    const searchData = card.getAttribute('data-search') || '';
+                    // সব লুকানো
+                    $detailsSection.find('.details-section').removeClass('active');
                     
-                    // কোনো সার্চ টার্ম না থাকলে সব কার্ড দেখাও
-                    if (searchTerm === '') {
-                        card.classList.remove('hidden');
-                        matchFound = true; // ডিফল্টভাবে দেখানোর কারণে ট্রু
-                        return;
-                    }
+                    // সংশ্লিষ্ট সেকশন দেখানো
+                    if ($targetSection.length) {
+                        $targetSection.addClass('active');
+                        $detailsSection.addClass('active');
 
-                    // সার্চ টার্ম যদি পণ্যের নামের বা ডেটার সাথে মেলে
-                    if (searchData.includes(searchTerm)) {
-                        card.classList.remove('hidden');
-                        matchFound = true;
-                    } else {
-                        card.classList.add('hidden');
+                        // ডিটেইলস সেকশনে স্মুথ স্ক্রল করা
+                        const headerHeight = $('.header-section').outerHeight();
+                        $('html, body').animate({
+                            scrollTop: $detailsSection.offset().top - headerHeight
+                        }, 600);
                     }
-                });
-
-                // রেজাল্ট মেসেজ নিয়ন্ত্রণ
-                if (searchTerm !== '' && !matchFound) {
-                    searchMessage.style.display = 'block';
-                    searchMessage.textContent = `No products found matching "${searchTerm}".`;
-                } else {
-                    searchMessage.style.display = 'none';
+                    // সার্চ ইনপুট ফিল্ড পরিষ্কার করা
+                    $("#search-input").val(''); 
+                    return false; // ডিফল্ট ফর্ম জমা দেওয়া প্রতিরোধ করা
                 }
+            }).autocomplete("instance")._renderItem = function(ul, item) {
+                // কাস্টমাইজড ফলাফল প্রদর্শনের জন্য
+                return $("<li>")
+                    .append('<a href="#product-details-section" class="search-result-item view-details-btn" data-product-id="' + item.id + '">' +
+                                '<img src="' + item.image + '" alt="' + item.label + ' Thumbnail">' +
+                                '<div class="product-info">' +
+                                    '<div class="product-title-search">' + item.label + '</div>' +
+                                    '<div class="product-price-search">Price: ' + item.price + '</div>' +
+                                '</div>' +
+                            '</a>')
+                    .appendTo(ul);
+            };
+
+
+            // --- স্ক্রল করার সময় অ্যাক্টিভ লিংক আপডেট করা ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.main-nav ul li a');
+
+            const updateActiveLink = () => {
+                let current = '';
                 
-                // সার্চ শুরু হলে প্রোডাক্ট ক্যাটেগরি সেকশনে স্ক্রল করা
-                if (searchTerm.length > 0) {
-                     document.getElementById('product-categories').scrollIntoView({ behavior: 'smooth' });
-                }
-            });
+                // নেভিগেশন বারের উচ্চতা বিবেচনা করা (স্টিকি হেডার)
+                const headerHeight = document.querySelector('.header-section').offsetHeight + 10;
+                const scrollPosition = window.scrollY;
 
-            // পেজ লোড হলে একবার সব কার্ড নিশ্চিতভাবে দৃশ্যমান করা
-            productCards.forEach(card => card.classList.remove('hidden'));
-        });
-        
-        // --- 🔥 নতুন ড্রপডাউন টগল ফাংশনালিটি (Click-based) 🔥 ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const dropdown = document.getElementById('products-dropdown');
-            const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
-            
-            // ক্লিক ইভেন্ট হ্যান্ডলার
-            dropdownToggle.addEventListener('click', function(e) {
-                // ছোট স্ক্রিন বা টাচ ডিভাইসের জন্য এই ফাংশন কার্যকর হবে
-                if (window.innerWidth <= 768 || ('ontouchstart' in window)) {
-                    e.preventDefault(); // লিঙ্ক ফলো করা থেকে বিরত রাখা
-                    
-                    // ড্রপডাউনটি টগল করা
-                    dropdown.classList.toggle('active');
-                    
-                    // accessibility (aria-expanded) আপডেট করা
-                    const isExpanded = dropdown.classList.contains('active');
-                    dropdownToggle.setAttribute('aria-expanded', isExpanded);
-                }
-                // যদি বড় স্ক্রিন হয়, তবে ডিফল্টভাবে লিঙ্ক ফলো করবে (CSS hover কাজ করবে)
-            });
+                sections.forEach(section => {
+                    // ডিসক্লেইমার এবং পলিসি সেকশনকে স্ক্রল ট্র্যাকিং থেকে বাদ দিতে হবে, কারণ এগুলি হিডেন থাকতে পারে।
+                    if(section.id === 'disclaimer-section' || section.id === 'policy-section-container') return; 
 
-            // ক্লিক করলে মেনুটি বন্ধ করে দেওয়া
-            document.querySelectorAll('.dropdown-menu a').forEach(item => {
-                item.addEventListener('click', () => {
-                    // মেনুর ভেতরের লিঙ্কে ক্লিক করলে মেনুটি বন্ধ করে দেওয়া
-                    if (window.innerWidth <= 768 || ('ontouchstart' in window)) {
-                         dropdown.classList.remove('active');
-                         dropdownToggle.setAttribute('aria-expanded', 'false');
+                    const sectionTop = section.offsetTop - headerHeight;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+
+                    if (
+                        scrollPosition >= sectionTop &&
+                        scrollPosition < sectionTop + sectionHeight
+                    ) {
+                        current = sectionId;
                     }
                 });
-            });
-            
-            // অন্য কোথাও ক্লিক করলে মেনুটি বন্ধ করার জন্য (অপশনাল, কিন্তু ভালো প্র্যাকটিস)
-            document.addEventListener('click', (e) => {
-                if (!dropdown.contains(e.target) && window.innerWidth <= 768) {
-                    dropdown.classList.remove('active');
-                    dropdownToggle.setAttribute('aria-expanded', 'false');
+                
+                // যদি ডিসক্লেইমার সেকশন দৃশ্যমান থাকে, তবে সেটির লিংক অ্যাক্টিভ করুন
+                if ($('#disclaimer-section').is(':visible')) {
+                    current = 'disclaimer-section';
                 }
-            });
+                // যদি পলিসি সেকশন দৃশ্যমান থাকে, তবে T&C লিংক অ্যাক্টিভ করুন (সাধারণত পলিসি সেকশনের জন্য T&C লিঙ্ক ব্যবহৃত হয়)
+                else if ($('#policy-section-container').is(':visible')) {
+                     current = 'policy-section-container';
+                }
+
+
+                navLinks.forEach(link => {
+                    link.parentElement.classList.remove('active-cat'); 
+                    
+                    // হোম লিংক বিশেষভাবে হ্যান্ডেল করা হয়েছে
+                    if (current === 'top' || (current === 'product-categories' && link.getAttribute('href').includes('top'))) {
+                        // যদি স্ক্রল টপ বা প্রোডাক্ট ক্যাটেগরি সেকশনে থাকে, তাহলে হোমকে অ্যাক্টিভ করুন
+                        if(link.getAttribute('href') === '#top') {
+                            link.parentElement.classList.add('active-cat');
+                        }
+                    } 
+                    // অন্যথা সাধারণ সেকশন অ্যাক্টিভেশন
+                    else if (link.getAttribute('href').includes(current) && current !== '') {
+                        link.parentElement.classList.add('active-cat');
+                    }
+                });
+            };
+
+            // স্ক্রল ইভেন্ট যোগ করা
+            window.addEventListener('scroll', updateActiveLink);
+            
+            // প্রাথমিক লোডের সময়ও একবার চালানো
+            updateActiveLink(); 
         });
     </script>
 </body>
